@@ -1,0 +1,29 @@
+#!/bin/bash
+scriptPath="../kafka_2.11-0.10.1.1/bin/kafka-console-consumer.sh"
+region="kafka1.oemv2.us-west-2.wtpgs.net:2181"	
+topic="stg.mcs-events.raw"
+offset="--from-beginning"  # By-default it is "Latest"
+timeout="200000" # ms
+
+command="./$scriptPath --zookeeper $region --topic $topic --from-beginning"
+
+
+if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters"
+    echo "please follow pattern ./<scriptPath> <patternToSearch>"
+    exit 1
+fi
+
+patternToSearch="$1"
+#echo $command
+
+#   grep -q:
+#	    do not write anything to standard output.   Exit  immedi-
+#       ately  with  zero status if any match is found, even if an error
+#       was detected. 
+
+if eval $command 2>&1 | grep -q "$patternToSearch"; then
+	echo "Pattern found"
+else
+	echo "Pattern not found"
+fi

@@ -1,0 +1,32 @@
+#!/bin/bash
+table_name="gateway.stg.device_infos"
+device_id="084de6e4-22a8-4cd9-9ca8-2f999bc9a141"
+key="'{
+	    \"device_id\": {
+	    	\"S\": \"$device_id\"
+	    }
+	  }'"
+
+if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters"
+    echo "please follow pattern ./<scriptPath> <patternToSearch>"
+    exit 1
+fi
+
+patternToSearch="$1"
+
+command="aws dynamodb get-item --table-name $table_name --key $key"
+
+
+# -z string: True if the string is null (an empty string)
+result="$(eval $command)"
+
+if [ -z "$result" ] ; then 
+	echo "Search not found!"
+else
+	if echo "$result" | grep -q "$patternToSearch" ; then
+		echo "Search found"
+	else
+		echo "Search not found"
+	fi
+fi

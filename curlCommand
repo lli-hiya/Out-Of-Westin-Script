@@ -1,0 +1,27 @@
+#!/bin/bash
+declare "JsonData='{
+	\"cmd\":\"initiateDeviceAccountWithDeviceUserData\",
+	\"args\":{
+		\"auth_context\":{
+			\"app_version\":\"60208\",
+			\"client_id\":\"A5bDr\",
+			\"device_id\":\"084de6e4-22a8-4cd9-9ca8-2f999bc9a141\",
+			\"nonce\":\"00000\",
+			\"secret\":\"385f1db3741c3263c4919183a749a7fc4b22179e743b74a13e54d4add9c22741\",
+			\"user_token\":\"1234\",
+			\"utc_seconds_since_epoch\":1443768566
+		},
+		\"info\":{
+			\"locale\":\"en\",
+			\"phone_number\":{\"phone_number\":\"2065550145\"},
+			\"name\":{\"family_name\":\"TestByLiang2\",\"given_name\":\"Whitepages\"}
+		}
+	}
+}'"
+
+declare "URL=\"https://legacy-mobile-api-stg.hiyaapi.com/\""
+
+declare "curlCommand=curl -X POST -H \"Content-Type: application/json\" -H \"Cache-Control: no-cache\" -H \"Postman-Token: 744c7b91-074b-9a08-0f0a-6024f6ee7b54\" -d $JsonData $URL"
+
+echo $curlCommand
+eval $curlCommand
